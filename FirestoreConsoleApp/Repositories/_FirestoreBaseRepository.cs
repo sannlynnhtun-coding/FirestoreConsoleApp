@@ -74,9 +74,10 @@ namespace FirestoreConsoleApp.Repositories
         /// <inheritdoc />
         public async Task<T> UpdateAsync<T>(T entity) where T : IBaseFirestoreEntity
         {
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(entity));
+            //var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(entity));
             var recordRef = _firestoreDb.Collection(_collection.ToString()).Document(entity.Id);
-            await recordRef.SetAsync(values);
+            //await recordRef.SetAsync(values);
+            await recordRef.SetAsync(entity, SetOptions.MergeAll);
             // GO GET RECORD FROM DATABASE:
             // return (T)await GetAsync(entity);
             return entity;
