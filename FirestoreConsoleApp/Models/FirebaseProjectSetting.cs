@@ -19,5 +19,4 @@ namespace FirestoreConsoleApp.Models
         public string auth_provider_x509_cert_url { get; set; }
         public string client_x509_cert_url { get; set; }
     }
-
 }

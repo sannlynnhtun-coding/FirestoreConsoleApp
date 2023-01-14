@@ -2,12 +2,6 @@
 using FirestoreConsoleApp.Models;
 using Google.Cloud.Firestore;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FirestoreConsoleApp.Repositories
 {
@@ -18,7 +12,6 @@ namespace FirestoreConsoleApp.Repositories
 
         public FirestoreBaseRepository(Collection collection)
         {
-            // This should live in the appsetting file and injected - This is just an example.
             _collection = collection;
             var filepath = @"csharp-firestore-2022-firebase-adminsdk-exxt6-d7e4fb29a6.json";
             string jsonStr = File.ReadAllText(filepath);
@@ -28,7 +21,6 @@ namespace FirestoreConsoleApp.Repositories
             _firestoreDb = FirestoreDb.Create(setting.project_id);
         }
 
-        /// <inheritdoc />
         public async Task<List<T>> GetAllAsync<T>() where T : IBaseFirestoreEntity
         {
             Query query = _firestoreDb.Collection(_collection.ToString());
@@ -46,7 +38,6 @@ namespace FirestoreConsoleApp.Repositories
             return list;
         }
 
-        /// <inheritdoc />
         public async Task<object> GetAsync<T>(T entity) where T : IBaseFirestoreEntity
         {
             var docRef = _firestoreDb.Collection(_collection.ToString()).Document(entity.Id);
@@ -61,36 +52,26 @@ namespace FirestoreConsoleApp.Repositories
             return null;
         }
 
-        /// <inheritdoc />
         public async Task<T> AddAsync<T>(T entity) where T : IBaseFirestoreEntity
         {
             var colRef = _firestoreDb.Collection(_collection.ToString());
             var doc = await colRef.AddAsync(entity);
-            // GO GET RECORD FROM DATABASE:
-            // return (T) await GetAsync(entity); 
             return entity;
         }
 
-        /// <inheritdoc />
         public async Task<T> UpdateAsync<T>(T entity) where T : IBaseFirestoreEntity
         {
-            //var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(entity));
             var recordRef = _firestoreDb.Collection(_collection.ToString()).Document(entity.Id);
-            //await recordRef.SetAsync(values);
             await recordRef.SetAsync(entity, SetOptions.MergeAll);
-            // GO GET RECORD FROM DATABASE:
-            // return (T)await GetAsync(entity);
             return entity;
         }
 
-        /// <inheritdoc />
         public async Task DeleteAsync<T>(T entity) where T : IBaseFirestoreEntity
         {
             var recordRef = _firestoreDb.Collection(_collection.ToString()).Document(entity.Id);
             await recordRef.DeleteAsync();
         }
 
-        /// <inheritdoc />
         public async Task<List<T>> QueryRecordsAsync<T>(Query query) where T : IBaseFirestoreEntity
         {
             var querySnapshot = await query.GetSnapshotAsync();

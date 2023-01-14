@@ -15,7 +15,6 @@ namespace FirestoreConsoleApp.Repositories
         private readonly FirestoreBaseRepository<Blog> _repository;
         public BlogRepository()
         {
-            // This should be injected - This is just an example.
             _repository = new FirestoreBaseRepository<Blog>(Collection.Blogs);
         }
 
