@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+csharp-firestore-2022-firebase-adminsdk-exxt6-d7e4fb29a6.json
